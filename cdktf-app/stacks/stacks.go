@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 
+	"cdk.tf/go/stack/generated/harvester/harvester/provider"
 	"cdk.tf/go/stack/generated/harvester/harvester/virtualmachine"
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
@@ -64,6 +65,9 @@ func (v *VM_Definition) ParseYaml(file string) *VM_Definition {
 }
 func NewStack(scope constructs.Construct, name string, vmConfig *virtualmachine.VirtualmachineConfig) cdktf.TerraformStack {
 	stack := cdktf.NewTerraformStack(scope, &name)
+	var prov_config provider.HarvesterProviderConfig
+	prov_config.Kubecontext = jsii.String("local")
+	provider.NewHarvesterProvider(scope, jsii.String(*vmConfig.Name), &prov_config)
 	VM(stack, jsii.String(*vmConfig.Name), vmConfig)
 
 	// The code that defines your stack goes here
