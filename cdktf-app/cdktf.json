@@ -1,0 +1,12 @@
+{
+  "language": "go",
+  "app": "go run main.go",
+  "codeMakerOutput": "generated",
+  "projectId": "953eed16-d182-4b02-b7e5-14fce45ae31e",
+  "sendCrashReports": "false",
+  "terraformProviders": [
+    "harvester/harvester@~> 0.6"
+  ],
+  "terraformModules": [],
+  "context": {}
+}
