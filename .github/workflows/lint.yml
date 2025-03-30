@@ -9,6 +9,11 @@ jobs:
         uses: reviewdog/action-golangci-lint@v2.8.0
         with:
           workdir: cdktf-app
+  check_flake:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: install Nix
         uses: cachix/install-nix-action@v31
         with:
@@ -19,3 +24,4 @@ jobs:
         run: nix flake check
       - name: checking if the style is alejandra compliance
         run: alejandra -c . 
+
