@@ -1,22 +1,18 @@
 package main
 
 import (
-	"github.com/aws/constructs-go/constructs/v10"
+	"cdk.tf/go/stack/stacks"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
 )
 
-func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
-	stack := cdktf.NewTerraformStack(scope, &id)
-
-	// The code that defines your stack goes here
-
-	return stack
-}
-
 func main() {
 	app := cdktf.NewApp(nil)
+	var vm stacks.VM_Definition
+	// TODO wrap around cobra to accept yaml files as arguments whenever running the binary
+	vm.ParseYaml("config.yml")
+	b := vm.ToVMConfig()
 
-	NewMyStack(app, "cdktf-harvester")
+	stacks.VM(app, "harvester-vm", b)
 
 	app.Synth()
 }
