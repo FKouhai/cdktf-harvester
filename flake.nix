@@ -10,19 +10,17 @@
     };
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      flake-utils,
-      gomod2nix,
-    }:
+  outputs = {
+    self,
+    nixpkgs,
+    flake-utils,
+    gomod2nix,
+  }:
     flake-utils.lib.eachDefaultSystem (
-      system:
-      let
+      system: let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [ gomod2nix.overlays.default ];
+          overlays = [gomod2nix.overlays.default];
           config.allowUnfree = true;
         };
         cdktf-harvester = pkgs.buildGoModule {
@@ -36,17 +34,16 @@
           '';
         };
       in
-      with pkgs;
-      {
-        defaultPackage = cdktf-harvester;
-        devShells.default = mkShell {
-          buildInputs = [
-            nodePackages.cdktf-cli
-            go
-            nodejs_20
-            terraform
-          ];
-        };
-      }
+        with pkgs; {
+          defaultPackage = cdktf-harvester;
+          devShells.default = mkShell {
+            buildInputs = [
+              nodePackages.cdktf-cli
+              go
+              nodejs_20
+              terraform
+            ];
+          };
+        }
     );
 }
