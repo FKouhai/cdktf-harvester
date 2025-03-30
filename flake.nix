@@ -28,8 +28,8 @@
         cdktf-harvester = pkgs.buildGoModule {
           name = "cdktf-harvester";
           src = ./cdktf-app;
-          vendorHash = "sha256-tf3FwlIRutTc1Ef0zGePS1F5bYSfDakYMt5GFU8XjR4=";
-          runVend = true;
+          vendorHash = "sha256-aqfUIXSo9hQCw1hVekjqnlIxwqfIN32qbtUUKQjyq14=";
+          proxyVendor = true;
           doCheck = false;
           postInstall = ''
             mv $out/bin/stack $out/bin/cdktf-harvester
