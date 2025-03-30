@@ -6,6 +6,7 @@ import (
 
 	"cdk.tf/go/stack/generated/harvester/harvester/virtualmachine"
 	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
 	yaml "gopkg.in/yaml.v3"
 )
@@ -14,10 +15,10 @@ type VM_Definition struct {
 	CPU             float64   `yaml:"cpu"`
 	Name            string    `yaml:"name"`
 	Memory          string    `yaml:"memory"`
-	Reserved_memory string    `yaml:"reserved_memory,ommitempty"`
-	Efi             bool      `yaml:"efi,ommitempty"`
-	Secure_boot     bool      `yaml:"secure_boot,ommitempty"`
-	Ssh_Keys        []*string `yaml:"ssh_keys,ommitempty"`
+	Reserved_memory string    `yaml:"reserved_memory,omitempty"`
+	Efi             bool      `yaml:"efi,omitempty"`
+	Secure_boot     bool      `yaml:"secure_boot,omitempty"`
+	Ssh_Keys        []*string `yaml:"ssh_keys,omitempty"`
 	Disk            []struct {
 		Name       string `yaml:"name"`
 		Type       string `yaml:"type"`
@@ -28,8 +29,8 @@ type VM_Definition struct {
 	Network_interface []struct {
 		Name         string `yaml:"name"`
 		Network_name string `yaml:"network_name"`
-		Model        string `yaml:"model,ommitempty"`
-		Type         string `yaml:"type,ommitempty"`
+		Model        string `yaml:"model,omitempty"`
+		Type         string `yaml:"type,omitempty"`
 	} `yaml:"network_interface"`
 }
 
@@ -61,9 +62,17 @@ func (v *VM_Definition) ParseYaml(file string) *VM_Definition {
 	return v
 
 }
+func NewStack(scope constructs.Construct, name string, vmConfig *virtualmachine.VirtualmachineConfig) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+	VM(stack, jsii.String(*vmConfig.Name), vmConfig)
 
-func VM(scope constructs.Construct, id string, vmConfig *virtualmachine.VirtualmachineConfig) virtualmachine.Virtualmachine {
-	vm := virtualmachine.NewVirtualmachine(scope, &id, vmConfig)
+	// The code that defines your stack goes here
+
+	return stack
+
+}
+func VM(scope constructs.Construct, id *string, vmConfig *virtualmachine.VirtualmachineConfig) virtualmachine.Virtualmachine {
+	vm := virtualmachine.NewVirtualmachine(scope, id, vmConfig)
 
 	return vm
 }

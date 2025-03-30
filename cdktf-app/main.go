@@ -12,7 +12,7 @@ func main() {
 	vm.ParseYaml("config.yml")
 	b := vm.ToVMConfig()
 
-	stacks.VM(app, "harvester-vm", b)
+	stacks.NewStack(app, "harvester-vm", b)
 
 	app.Synth()
 }
